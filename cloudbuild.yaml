@@ -1,0 +1,53 @@
+STREAMING_CHUNK: Defining CI/CD pipeline steps...
+
+steps:
+
+Step 1: Build the Docker container image
+
+name: 'gcr.io/cloud-builders/docker'
+args:
+
+'build'
+
+'-t'
+
+'gcr.io/$PROJECT_ID/story-planner-app:$COMMIT_SHA'
+
+'.'
+
+Step 2: Push the built image to Google Container Registry
+
+name: 'gcr.io/cloud-builders/docker'
+args:
+
+'push'
+
+'gcr.io/$PROJECT_ID/story-planner-app:$COMMIT_SHA'
+
+Step 3: Deploy the image to Google Cloud Run
+
+name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+entrypoint: 'gcloud'
+args:
+
+'run'
+
+'deploy'
+
+'story-planner-app'
+
+'--image'
+
+'gcr.io/$PROJECT_ID/story-planner-app:$COMMIT_SHA'
+
+'--region'
+
+'us-central1' # Replace with your preferred GCP region if necessary
+
+'--allow-unauthenticated'
+
+Inform Cloud Build about the image produced by this workflow
+
+images:
+
+'gcr.io/$PROJECT_ID/story-planner-app:$COMMIT_SHA'
