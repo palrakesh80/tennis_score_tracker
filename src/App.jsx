@@ -51,7 +51,6 @@ if (matchComplete) break;
 const pt = points[i];
 const ptWinner = pt.winner;
 
-```
 if (inTiebreak) {
   if (ptWinner === 'p1') tiebreakP1++;
   else tiebreakP2++;
@@ -148,7 +147,6 @@ if (inTiebreak) {
   }
 }
 
-```
 
 }
 
@@ -233,7 +231,6 @@ m.settings.player1Name === matchSettings.player1Name &&
 m.settings.player2Name === matchSettings.player2Name
 );
 
-```
 const matchSnapshot = {
   id: existingIndex >= 0 ? savedMatches[existingIndex].id : Date.now(),
   savedTime: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
@@ -257,7 +254,6 @@ if (existingIndex >= 0) {
 
 showToast('💾 Match & Setup successfully saved!');
 
-```
 
 };
 
@@ -290,12 +286,10 @@ setIndex: matchState.currentSetIdx,
 timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
 };
 
-```
 setPoints((prev) => [...prev, newPoint]);
 setServeStatus('1st');
 showToast(`Point logged for ${pointWinner === 'p1' ? matchSettings.player1Name : matchSettings.player2Name}`);
 
-```
 
 };
 
@@ -313,7 +307,6 @@ p1: { totalPoints: 0, aces: 0, dfs: 0, winners: 0, ueNet: 0, ueLong: 0, ueWide: 
 p2: { totalPoints: 0, aces: 0, dfs: 0, winners: 0, ueNet: 0, ueLong: 0, ueWide: 0, totalUE: 0, forcedErrors: 0, servePoints: 0, servePointsWon: 0, returnPoints: 0, returnPointsWon: 0 },
 };
 
-```
 points.forEach((pt) => {
   const winner = pt.winner;
   const loser = winner === 'p1' ? 'p2' : 'p1';
@@ -347,7 +340,6 @@ points.forEach((pt) => {
 
 return stats;
 
-```
 
 };
 
@@ -361,7 +353,6 @@ return (
 
 )}
 
-```
   <header className="sticky top-0 z-40 bg-[#aed3fb] text-slate-900 border-b border-blue-200 px-4 py-3 shadow-xs">
     <div className="max-w-xl mx-auto flex justify-between items-center">
       <div className="flex items-center gap-2">
@@ -452,7 +443,6 @@ return (
   </nav>
 </div>
 
-```
 
 );
 }
