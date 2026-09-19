@@ -346,12 +346,12 @@ return stats;
 const stats = calculateStats();
 
 return (
-
-{toastMessage && (
-
-{toastMessage}
-
-)}
+<div className="min-h-screen bg-slate-50">
+  {toastMessage && (
+    <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white text-xs font-bold px-4 py-2 rounded-xl shadow-lg">
+      {toastMessage}
+    </div>
+  )}
 
   <header className="sticky top-0 z-40 bg-[#aed3fb] text-slate-900 border-b border-blue-200 px-4 py-3 shadow-xs">
     <div className="max-w-xl mx-auto flex justify-between items-center">
@@ -411,6 +411,44 @@ return (
       </div>
     )}
 
+    {activeTab === 'stats' && (
+      <div className="space-y-4">
+        {['p1', 'p2'].map((p) => (
+          <div key={p} className="bg-white border rounded-2xl p-4 space-y-1.5 text-xs">
+            <div className="font-bold text-slate-900 text-sm mb-1">
+              {p === 'p1' ? matchSettings.player1Name : matchSettings.player2Name}
+            </div>
+            <div className="flex justify-between"><span>Total Points Won</span><span className="font-bold">{stats[p].totalPoints}</span></div>
+            <div className="flex justify-between"><span>Aces</span><span className="font-bold">{stats[p].aces}</span></div>
+            <div className="flex justify-between"><span>Double Faults</span><span className="font-bold">{stats[p].dfs}</span></div>
+            <div className="flex justify-between"><span>Winners</span><span className="font-bold">{stats[p].winners}</span></div>
+            <div className="flex justify-between"><span>Unforced Errors</span><span className="font-bold">{stats[p].totalUE}</span></div>
+            <div className="flex justify-between"><span>Serve Points Won</span><span className="font-bold">{stats[p].servePointsWon}/{stats[p].servePoints}</span></div>
+            <div className="flex justify-between"><span>Return Points Won</span><span className="font-bold">{stats[p].returnPointsWon}/{stats[p].returnPoints}</span></div>
+          </div>
+        ))}
+      </div>
+    )}
+
+    {activeTab === 'history' && (
+      <div className="space-y-2">
+        {points.length === 0 && (
+          <div className="bg-white border rounded-2xl p-4 text-xs text-slate-500 text-center">No points logged yet.</div>
+        )}
+        {[...points].reverse().map((pt) => (
+          <div key={pt.id} className="bg-white border rounded-xl p-3 flex justify-between items-center text-xs">
+            <div>
+              <div className="font-bold text-slate-900">
+                {pt.winner === 'p1' ? matchSettings.player1Name : matchSettings.player2Name}
+              </div>
+              <div className="text-slate-500">{POINT_TYPES[pt.type]?.label || pt.type}</div>
+            </div>
+            <div className="text-slate-400">{pt.timestamp}</div>
+          </div>
+        ))}
+      </div>
+    )}
+
     {activeTab === 'saved' && (
       <div className="space-y-4">
         <div className="flex justify-between items-center bg-white p-4 rounded-2xl border border-slate-200">
@@ -442,7 +480,5 @@ return (
     </div>
   </nav>
 </div>
-
-
 );
 }
