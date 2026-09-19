@@ -18,7 +18,7 @@ const INITIAL_MATCH_SETTINGS = {
 player1Name: 'Player 1 (Kid)',
 player2Name: 'Opponent',
 tournament: 'Junior Tennis Event',
-date: new Date().toISOString().split('T')\[0\],
+date: new Date().toISOString().split('T')[0],
 surface: 'Hard',
 setsToWin: 2,
 setFormat: 'short',
