@@ -31,7 +31,7 @@ finalSetTiebreak: true,
 const computeMatchState = (points, settings) => {
 let p1Sets = 0;
 let p2Sets = 0;
-let setScores = \[{ p1: 0, p2: 0, tiebreak: null }\];
+let setScores = [{ p1: 0, p2: 0, tiebreak: null }];
 let currentSetIdx = 0;
 let currentServer = settings.initialServer;
 let p1GamePoints = 0;
@@ -48,7 +48,7 @@ const switchServer = (fromServer) => (fromServer === 'p1' ? 'p2' : 'p1');
 
 for (let i = 0; i < points.length; i++) {
 if (matchComplete) break;
-const pt = points\[i\];
+const pt = points[i];
 const ptWinner = pt.winner;
 
 ```
@@ -161,10 +161,10 @@ if (p1GamePoints === p2GamePoints) gameScoreDisplay = { p1: '40', p2: '40' };
 else if (p1GamePoints === p2GamePoints + 1) gameScoreDisplay = { p1: 'AD', p2: '40' };
 else if (p2GamePoints === p1GamePoints + 1) gameScoreDisplay = { p1: '40', p2: 'AD' };
 } else {
-const tennisPointsMap = \['0', '15', '30', '40'\];
+const tennisPointsMap = ['0', '15', '30', '40'];
 gameScoreDisplay = {
-p1: tennisPointsMap\[p1GamePoints\] || '0',
-p2: tennisPointsMap\[p2GamePoints\] || '0',
+p1: tennisPointsMap[p1GamePoints] || '0',
+p2: tennisPointsMap[p2GamePoints] || '0',
 };
 }
 }
@@ -175,48 +175,48 @@ p1Sets, p2Sets, setScores, currentSetIdx, currentServer, p1GamePoints, p2GamePoi
 };
 
 export default function App() {
-const \[matchSettings, setMatchSettings\] = useState(() => {
+const [matchSettings, setMatchSettings] = useState(() => {
 const saved = localStorage.getItem('tennis_match_settings');
 return saved ? JSON.parse(saved) : INITIAL_MATCH_SETTINGS;
 });
 
-const \[points, setPoints\] = useState(() => {
+const [points, setPoints] = useState(() => {
 const saved = localStorage.getItem('tennis_match_points');
-return saved ? JSON.parse(saved) : \[\];
+return saved ? JSON.parse(saved) : [];
 });
 
-const \[customNotes, setCustomNotes\] = useState(() => {
+const [customNotes, setCustomNotes] = useState(() => {
 const saved = localStorage.getItem('tennis_match_notes');
 return saved ? JSON.parse(saved) : '';
 });
 
-const \[savedMatches, setSavedMatches\] = useState(() => {
+const [savedMatches, setSavedMatches] = useState(() => {
 const saved = localStorage.getItem('tennis_saved_matches');
-return saved ? JSON.parse(saved) : \[\];
+return saved ? JSON.parse(saved) : [];
 });
 
-const \[activeTab, setActiveTab\] = useState('tracker');
-const \[selectedPointType, setSelectedPointType\] = useState('REGULAR');
-const \[serveStatus, setServeStatus\] = useState('1st');
-const \[editingPointIndex, setEditingPointIndex\] = useState(null);
-const \[showConfirmReset, setShowConfirmReset\] = useState(false);
-const \[toastMessage, setToastMessage\] = useState(null);
+const [activeTab, setActiveTab] = useState('tracker');
+const [selectedPointType, setSelectedPointType] = useState('REGULAR');
+const [serveStatus, setServeStatus] = useState('1st');
+const [editingPointIndex, setEditingPointIndex] = useState(null);
+const [showConfirmReset, setShowConfirmReset] = useState(false);
+const [toastMessage, setToastMessage] = useState(null);
 
 useEffect(() => {
 localStorage.setItem('tennis_match_settings', JSON.stringify(matchSettings));
-}, \[matchSettings\]);
+}, [matchSettings]);
 
 useEffect(() => {
 localStorage.setItem('tennis_match_points', JSON.stringify(points));
-}, \[points\]);
+}, [points]);
 
 useEffect(() => {
 localStorage.setItem('tennis_match_notes', JSON.stringify(customNotes));
-}, \[customNotes\]);
+}, [customNotes]);
 
 useEffect(() => {
 localStorage.setItem('tennis_saved_matches', JSON.stringify(savedMatches));
-}, \[savedMatches\]);
+}, [savedMatches]);
 
 const showToast = (msg) => {
 setToastMessage(msg);
@@ -287,7 +287,7 @@ type: typeKey,
 server: matchState.currentServer,
 serveStatus: serveStatus,
 setIndex: matchState.currentSetIdx,
-timestamp: new Date().toLocaleTimeString(\[\], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
 };
 
 ```
@@ -301,7 +301,7 @@ showToast(`Point logged for ${pointWinner === 'p1' ? matchSettings.player1Name :
 
 const handleUndo = () => {
 if (points.length === 0) return;
-const updated = \[...points\];
+const updated = [...points];
 const removed = updated.pop();
 setPoints(updated);
 showToast(`Cancelled last point (${removed.winner === 'p1' ? matchSettings.player1Name : matchSettings.player2Name})`);
