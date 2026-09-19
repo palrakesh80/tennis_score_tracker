@@ -18,7 +18,7 @@ const INITIAL_MATCH_SETTINGS = {
 player1Name: 'Player 1 (Kid)',
 player2Name: 'Opponent',
 tournament: 'Junior Tennis Event',
-date: new Date().toISOString().split('T')\[0\],
+date: new Date().toISOString().split('T')[0],
 surface: 'Hard',
 setsToWin: 2,
 setFormat: 'short',
@@ -31,7 +31,7 @@ finalSetTiebreak: true,
 const computeMatchState = (points, settings) => {
 let p1Sets = 0;
 let p2Sets = 0;
-let setScores = \[{ p1: 0, p2: 0, tiebreak: null }\];
+let setScores = [{ p1: 0, p2: 0, tiebreak: null }];
 let currentSetIdx = 0;
 let currentServer = settings.initialServer;
 let p1GamePoints = 0;
@@ -48,10 +48,9 @@ const switchServer = (fromServer) => (fromServer === 'p1' ? 'p2' : 'p1');
 
 for (let i = 0; i < points.length; i++) {
 if (matchComplete) break;
-const pt = points\[i\];
+const pt = points[i];
 const ptWinner = pt.winner;
 
-```
 if (inTiebreak) {
   if (ptWinner === 'p1') tiebreakP1++;
   else tiebreakP2++;
@@ -148,7 +147,6 @@ if (inTiebreak) {
   }
 }
 
-```
 
 }
 
@@ -161,10 +159,10 @@ if (p1GamePoints === p2GamePoints) gameScoreDisplay = { p1: '40', p2: '40' };
 else if (p1GamePoints === p2GamePoints + 1) gameScoreDisplay = { p1: 'AD', p2: '40' };
 else if (p2GamePoints === p1GamePoints + 1) gameScoreDisplay = { p1: '40', p2: 'AD' };
 } else {
-const tennisPointsMap = \['0', '15', '30', '40'\];
+const tennisPointsMap = ['0', '15', '30', '40'];
 gameScoreDisplay = {
-p1: tennisPointsMap\[p1GamePoints\] || '0',
-p2: tennisPointsMap\[p2GamePoints\] || '0',
+p1: tennisPointsMap[p1GamePoints] || '0',
+p2: tennisPointsMap[p2GamePoints] || '0',
 };
 }
 }
@@ -175,48 +173,48 @@ p1Sets, p2Sets, setScores, currentSetIdx, currentServer, p1GamePoints, p2GamePoi
 };
 
 export default function App() {
-const \[matchSettings, setMatchSettings\] = useState(() => {
+const [matchSettings, setMatchSettings] = useState(() => {
 const saved = localStorage.getItem('tennis_match_settings');
 return saved ? JSON.parse(saved) : INITIAL_MATCH_SETTINGS;
 });
 
-const \[points, setPoints\] = useState(() => {
+const [points, setPoints] = useState(() => {
 const saved = localStorage.getItem('tennis_match_points');
-return saved ? JSON.parse(saved) : \[\];
+return saved ? JSON.parse(saved) : [];
 });
 
-const \[customNotes, setCustomNotes\] = useState(() => {
+const [customNotes, setCustomNotes] = useState(() => {
 const saved = localStorage.getItem('tennis_match_notes');
 return saved ? JSON.parse(saved) : '';
 });
 
-const \[savedMatches, setSavedMatches\] = useState(() => {
+const [savedMatches, setSavedMatches] = useState(() => {
 const saved = localStorage.getItem('tennis_saved_matches');
-return saved ? JSON.parse(saved) : \[\];
+return saved ? JSON.parse(saved) : [];
 });
 
-const \[activeTab, setActiveTab\] = useState('tracker');
-const \[selectedPointType, setSelectedPointType\] = useState('REGULAR');
-const \[serveStatus, setServeStatus\] = useState('1st');
-const \[editingPointIndex, setEditingPointIndex\] = useState(null);
-const \[showConfirmReset, setShowConfirmReset\] = useState(false);
-const \[toastMessage, setToastMessage\] = useState(null);
+const [activeTab, setActiveTab] = useState('tracker');
+const [selectedPointType, setSelectedPointType] = useState('REGULAR');
+const [serveStatus, setServeStatus] = useState('1st');
+const [editingPointIndex, setEditingPointIndex] = useState(null);
+const [showConfirmReset, setShowConfirmReset] = useState(false);
+const [toastMessage, setToastMessage] = useState(null);
 
 useEffect(() => {
 localStorage.setItem('tennis_match_settings', JSON.stringify(matchSettings));
-}, \[matchSettings\]);
+}, [matchSettings]);
 
 useEffect(() => {
 localStorage.setItem('tennis_match_points', JSON.stringify(points));
-}, \[points\]);
+}, [points]);
 
 useEffect(() => {
 localStorage.setItem('tennis_match_notes', JSON.stringify(customNotes));
-}, \[customNotes\]);
+}, [customNotes]);
 
 useEffect(() => {
 localStorage.setItem('tennis_saved_matches', JSON.stringify(savedMatches));
-}, \[savedMatches\]);
+}, [savedMatches]);
 
 const showToast = (msg) => {
 setToastMessage(msg);
@@ -233,7 +231,6 @@ m.settings.player1Name === matchSettings.player1Name &&
 m.settings.player2Name === matchSettings.player2Name
 );
 
-```
 const matchSnapshot = {
   id: existingIndex >= 0 ? savedMatches[existingIndex].id : Date.now(),
   savedTime: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
@@ -257,7 +254,6 @@ if (existingIndex >= 0) {
 
 showToast('💾 Match & Setup successfully saved!');
 
-```
 
 };
 
@@ -287,21 +283,19 @@ type: typeKey,
 server: matchState.currentServer,
 serveStatus: serveStatus,
 setIndex: matchState.currentSetIdx,
-timestamp: new Date().toLocaleTimeString(\[\], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
 };
 
-```
 setPoints((prev) => [...prev, newPoint]);
 setServeStatus('1st');
 showToast(`Point logged for ${pointWinner === 'p1' ? matchSettings.player1Name : matchSettings.player2Name}`);
 
-```
 
 };
 
 const handleUndo = () => {
 if (points.length === 0) return;
-const updated = \[...points\];
+const updated = [...points];
 const removed = updated.pop();
 setPoints(updated);
 showToast(`Cancelled last point (${removed.winner === 'p1' ? matchSettings.player1Name : matchSettings.player2Name})`);
@@ -313,7 +307,6 @@ p1: { totalPoints: 0, aces: 0, dfs: 0, winners: 0, ueNet: 0, ueLong: 0, ueWide: 
 p2: { totalPoints: 0, aces: 0, dfs: 0, winners: 0, ueNet: 0, ueLong: 0, ueWide: 0, totalUE: 0, forcedErrors: 0, servePoints: 0, servePointsWon: 0, returnPoints: 0, returnPointsWon: 0 },
 };
 
-```
 points.forEach((pt) => {
   const winner = pt.winner;
   const loser = winner === 'p1' ? 'p2' : 'p1';
@@ -347,7 +340,6 @@ points.forEach((pt) => {
 
 return stats;
 
-```
 
 };
 
@@ -361,7 +353,6 @@ return (
 
 )}
 
-```
   <header className="sticky top-0 z-40 bg-[#aed3fb] text-slate-900 border-b border-blue-200 px-4 py-3 shadow-xs">
     <div className="max-w-xl mx-auto flex justify-between items-center">
       <div className="flex items-center gap-2">
@@ -452,7 +443,6 @@ return (
   </nav>
 </div>
 
-```
 
 );
 }
